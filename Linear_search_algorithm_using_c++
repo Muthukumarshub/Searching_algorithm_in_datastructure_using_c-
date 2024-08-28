@@ -1,31 +1,59 @@
 #include <iostream>
-#include <string>
+#include <algorithm> // for sort
 using namespace std;
-int main()
-{
-int myarray[10] = {21,43,23,54,75,13,5,8,25,10};
-int key,loc;
-cout<<"The input array is"<<endl; 
-for(int i=0;i<10;i++){
-cout<<myarray[i]<<" ";
+
+// Function for binary search
+int binarySearch(int arr[], int size, int key) {
+    int left = 0, right = size - 1;
+    
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+        
+        // Check if key is present at mid
+        if (arr[mid] == key)
+            return mid + 1; // Return position (1-based index)
+        // If key is greater, ignore the left half
+        else if (arr[mid] < key)
+            left = mid + 1;
+        // If key is smaller, ignore the right half
+        else
+            right = mid - 1;
+    }
+    
+    // If we reach here, the element was not present
+    return 0;
 }
-cout<<endl;
-cout<<"Enter the key to be searched : "; 
-cin>>key;
-for (int i = 0; i< 10; i++)
-{
-if(myarray[i] == key)
-{
-loc = i+1; break;
-}
-else
-loc = 0;
-}
-if(loc != 0)
-{
-cout<<"Key found at position "<<loc<<" in the array";
-}
-else
-{
-cout<<"Could not find given key in the array";
+
+int main() {
+    int myarray[10] = {21, 43, 23, 54, 75, 13, 5, 8, 25, 10};
+    int key, loc;
+    
+    cout << "The input array is" << endl; 
+    for(int i = 0; i < 10; i++) {
+        cout << myarray[i] << " ";
+    }
+    cout << endl;
+    
+    // Sort the array first for binary search
+    sort(myarray, myarray + 10);
+    
+    cout << "The sorted array is" << endl;
+    for(int i = 0; i < 10; i++) {
+        cout << myarray[i] << " ";
+    }
+    cout << endl;
+    
+    cout << "Enter the key to be searched: "; 
+    cin >> key;
+    
+    // Perform binary search
+    loc = binarySearch(myarray, 10, key);
+    
+    if(loc != 0) {
+        cout << "Key found at position " << loc << " in the sorted array";
+    } else {
+        cout << "Could not find the given key in the array";
+    }
+    
+    return 0;
 }
